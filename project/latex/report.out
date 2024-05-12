@@ -1,0 +1,12 @@
+\BOOKMARK [1][-]{section.1}{Introduction}{}% 1
+\BOOKMARK [1][-]{section.2}{Theoretical contributions of the paper}{}% 2
+\BOOKMARK [2][-]{subsection.2.1}{Mathematical preliminaries and notation}{section.2}% 3
+\BOOKMARK [2][-]{subsection.2.2}{Problem formulation}{section.2}% 4
+\BOOKMARK [3][-]{subsubsection.2.2.1}{First algorithm \(without measurements of rj\)}{subsection.2.2}% 5
+\BOOKMARK [3][-]{subsubsection.2.2.2}{Second algorithm \(with measurements of rj\)}{subsection.2.2}% 6
+\BOOKMARK [1][-]{section.3}{Some mathematical objects used}{}% 7
+\BOOKMARK [2][-]{subsection.3.1}{An measure of difference on SO\(3\)}{section.3}% 8
+\BOOKMARK [2][-]{subsection.3.2}{Lyapunov stability criterion}{section.3}% 9
+\BOOKMARK [2][-]{subsection.3.3}{Augmented adjoint representation}{section.3}% 10
+\BOOKMARK [1][-]{section.4}{An applied example }{}% 11
+\BOOKMARK [1][-]{section.5}{Conclusion }{}% 12

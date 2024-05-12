@@ -1,0 +1,486 @@
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Debian) (preloaded format=pdflatex 2023.7.3)  30 JAN 2024 21:41
+entering extended mode
+ restricted \write18 enabled.
+ file:line:error style messages enabled.
+ %&-line parsing enabled.
+**/home/adityaya/iitb/SC651/Assignment1/report/report.tex
+(/home/adityaya/iitb/SC651/Assignment1/report/report.tex
+LaTeX2e <2020-02-02> patch level 2
+L3 programming layer <2020-02-14> (/usr/share/texlive/texmf-dist/tex/latex/base/article.cls
+Document Class: article 2019/12/20 v1.4l Standard LaTeX document class
+(/usr/share/texlive/texmf-dist/tex/latex/base/size11.clo
+File: size11.clo 2019/12/20 v1.4l Standard LaTeX file (size option)
+)
+\c@part=\count167
+\c@section=\count168
+\c@subsection=\count169
+\c@subsubsection=\count170
+\c@paragraph=\count171
+\c@subparagraph=\count172
+\c@figure=\count173
+\c@table=\count174
+\abovecaptionskip=\skip47
+\belowcaptionskip=\skip48
+\bibindent=\dimen134
+) (/usr/share/texlive/texmf-dist/tex/latex/graphics/graphicx.sty
+Package: graphicx 2019/11/30 v1.2a Enhanced LaTeX Graphics (DPC,SPQR)
+ (/usr/share/texlive/texmf-dist/tex/latex/graphics/keyval.sty
+Package: keyval 2014/10/28 v1.15 key=value parser (DPC)
+\KV@toks@=\toks14
+) (/usr/share/texlive/texmf-dist/tex/latex/graphics/graphics.sty
+Package: graphics 2019/11/30 v1.4a Standard LaTeX Graphics (DPC,SPQR)
+ (/usr/share/texlive/texmf-dist/tex/latex/graphics/trig.sty
+Package: trig 2016/01/03 v1.10 sin cos tan (DPC)
+) (/usr/share/texlive/texmf-dist/tex/latex/graphics-cfg/graphics.cfg
+File: graphics.cfg 2016/06/04 v1.11 sample graphics configuration
+)
+Package graphics Info: Driver file: pdftex.def on input line 105.
+ (/usr/share/texlive/texmf-dist/tex/latex/graphics-def/pdftex.def
+File: pdftex.def 2018/01/08 v1.0l Graphics/color driver for pdftex
+))
+\Gin@req@height=\dimen135
+\Gin@req@width=\dimen136
+) (/usr/share/texlive/texmf-dist/tex/latex/caption/subcaption.sty
+Package: subcaption 2020/01/22 v1.3d Sub-captions (AR)
+ (/usr/share/texlive/texmf-dist/tex/latex/caption/caption.sty
+Package: caption 2020/01/03 v3.4h Customizing captions (AR)
+ (/usr/share/texlive/texmf-dist/tex/latex/caption/caption3.sty
+Package: caption3 2020/01/03 v1.8h caption3 kernel (AR)
+Package caption3 Info: TeX engine: e-TeX on input line 61.
+\captionmargin=\dimen137
+\captionmargin@=\dimen138
+\captionwidth=\dimen139
+\caption@tempdima=\dimen140
+\caption@indent=\dimen141
+\caption@parindent=\dimen142
+\caption@hangindent=\dimen143
+Package caption Info: Standard document class detected.
+)
+\c@caption@flags=\count175
+\c@continuedfloat=\count176
+)
+\c@subfigure=\count177
+\c@subtable=\count178
+) (/usr/share/texlive/texmf-dist/tex/latex/tools/tabularx.sty
+Package: tabularx 2020/01/15 v2.11c `tabularx' package (DPC)
+ (/usr/share/texlive/texmf-dist/tex/latex/tools/array.sty
+Package: array 2019/08/31 v2.4l Tabular extension package (FMi)
+\col@sep=\dimen144
+\ar@mcellbox=\box45
+\extrarowheight=\dimen145
+\NC@list=\toks15
+\extratabsurround=\skip49
+\backup@length=\skip50
+\ar@cellbox=\box46
+)
+\TX@col@width=\dimen146
+\TX@old@table=\dimen147
+\TX@old@col=\dimen148
+\TX@target=\dimen149
+\TX@delta=\dimen150
+\TX@cols=\count179
+\TX@ftn=\toks16
+) (/usr/share/texlive/texmf-dist/tex/latex/float/float.sty
+Package: float 2001/11/08 v1.3d Float enhancements (AL)
+\c@float@type=\count180
+\float@exts=\toks17
+\float@box=\box47
+\@float@everytoks=\toks18
+\@floatcapt=\box48
+) (/usr/share/texlive/texmf-dist/tex/latex/listings/listings.sty
+\lst@mode=\count181
+\lst@gtempboxa=\box49
+\lst@token=\toks19
+\lst@length=\count182
+\lst@currlwidth=\dimen151
+\lst@column=\count183
+\lst@pos=\count184
+\lst@lostspace=\dimen152
+\lst@width=\dimen153
+\lst@newlines=\count185
+\lst@lineno=\count186
+\lst@maxwidth=\dimen154
+ (/usr/share/texlive/texmf-dist/tex/latex/listings/lstmisc.sty
+File: lstmisc.sty 2019/09/10 1.8c (Carsten Heinz)
+\c@lstnumber=\count187
+\lst@skipnumbers=\count188
+\lst@framebox=\box50
+) (/usr/share/texlive/texmf-dist/tex/latex/listings/listings.cfg
+File: listings.cfg 2019/09/10 1.8c listings configuration
+))
+Package: listings 2019/09/10 1.8c (Carsten Heinz)
+ (/usr/share/texlive/texmf-dist/tex/latex/amsmath/amsmath.sty
+Package: amsmath 2020/01/20 v2.17e AMS math features
+\@mathmargin=\skip51
+
+For additional information on amsmath, use the `?' option.
+(/usr/share/texlive/texmf-dist/tex/latex/amsmath/amstext.sty
+Package: amstext 2000/06/29 v2.01 AMS text
+ (/usr/share/texlive/texmf-dist/tex/latex/amsmath/amsgen.sty
+File: amsgen.sty 1999/11/30 v2.0 generic functions
+\@emptytoks=\toks20
+\ex@=\dimen155
+)) (/usr/share/texlive/texmf-dist/tex/latex/amsmath/amsbsy.sty
+Package: amsbsy 1999/11/29 v1.2d Bold Symbols
+\pmbraise@=\dimen156
+) (/usr/share/texlive/texmf-dist/tex/latex/amsmath/amsopn.sty
+Package: amsopn 2016/03/08 v2.02 operator names
+)
+\inf@bad=\count189
+LaTeX Info: Redefining \frac on input line 227.
+\uproot@=\count190
+\leftroot@=\count191
+LaTeX Info: Redefining \overline on input line 389.
+\classnum@=\count192
+\DOTSCASE@=\count193
+LaTeX Info: Redefining \ldots on input line 486.
+LaTeX Info: Redefining \dots on input line 489.
+LaTeX Info: Redefining \cdots on input line 610.
+\Mathstrutbox@=\box51
+\strutbox@=\box52
+\big@size=\dimen157
+LaTeX Font Info:    Redeclaring font encoding OML on input line 733.
+LaTeX Font Info:    Redeclaring font encoding OMS on input line 734.
+\macc@depth=\count194
+\c@MaxMatrixCols=\count195
+\dotsspace@=\muskip16
+\c@parentequation=\count196
+\dspbrk@lvl=\count197
+\tag@help=\toks21
+\row@=\count198
+\column@=\count199
+\maxfields@=\count266
+\andhelp@=\toks22
+\eqnshift@=\dimen158
+\alignsep@=\dimen159
+\tagshift@=\dimen160
+\tagwidth@=\dimen161
+\totwidth@=\dimen162
+\lineht@=\dimen163
+\@envbody=\toks23
+\multlinegap=\skip52
+\multlinetaggap=\skip53
+\mathdisplay@stack=\toks24
+LaTeX Info: Redefining \[ on input line 2859.
+LaTeX Info: Redefining \] on input line 2860.
+) (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/amssymb.sty
+Package: amssymb 2013/01/14 v3.01 AMS font symbols
+ (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/amsfonts.sty
+Package: amsfonts 2013/01/14 v3.01 Basic AMSFonts support
+\symAMSa=\mathgroup4
+\symAMSb=\mathgroup5
+LaTeX Font Info:    Redeclaring math symbol \hbar on input line 98.
+LaTeX Font Info:    Overwriting math alphabet `\mathfrak' in version `bold'
+(Font)                  U/euf/m/n --> U/euf/b/n on input line 106.
+)) (/usr/share/texlive/texmf-dist/tex/latex/enumitem/enumitem.sty
+Package: enumitem 2019/06/20 v3.9 Customized lists
+\labelindent=\skip54
+\enit@outerparindent=\dimen164
+\enit@toks=\toks25
+\enit@inbox=\box53
+\enit@count@id=\count267
+\enitdp@description=\count268
+) (/usr/share/texlive/texmf-dist/tex/latex/xcolor/xcolor.sty
+Package: xcolor 2016/05/11 v2.12 LaTeX color extensions (UK)
+ (/usr/share/texlive/texmf-dist/tex/latex/graphics-cfg/color.cfg
+File: color.cfg 2016/01/02 v1.6 sample color configuration
+)
+Package xcolor Info: Driver file: pdftex.def on input line 225.
+Package xcolor Info: Model `cmy' substituted by `cmy0' on input line 1348.
+Package xcolor Info: Model `hsb' substituted by `rgb' on input line 1352.
+Package xcolor Info: Model `RGB' extended on input line 1364.
+Package xcolor Info: Model `HTML' substituted by `rgb' on input line 1366.
+Package xcolor Info: Model `Hsb' substituted by `hsb' on input line 1367.
+Package xcolor Info: Model `tHsb' substituted by `hsb' on input line 1368.
+Package xcolor Info: Model `HSB' substituted by `hsb' on input line 1369.
+Package xcolor Info: Model `Gray' substituted by `gray' on input line 1370.
+Package xcolor Info: Model `wave' substituted by `hsb' on input line 1371.
+) (/usr/share/texlive/texmf-dist/tex/latex/geometry/geometry.sty
+Package: geometry 2020/01/02 v5.9 Page Geometry
+ (/usr/share/texlive/texmf-dist/tex/generic/iftex/ifvtex.sty
+Package: ifvtex 2019/10/25 v1.7 ifvtex legacy package. Use iftex instead.
+ (/usr/share/texlive/texmf-dist/tex/generic/iftex/iftex.sty
+Package: iftex 2019/11/07 v1.0c TeX engine tests
+))
+\Gm@cnth=\count269
+\Gm@cntv=\count270
+\c@Gm@tempcnt=\count271
+\Gm@bindingoffset=\dimen165
+\Gm@wd@mp=\dimen166
+\Gm@odd@mp=\dimen167
+\Gm@even@mp=\dimen168
+\Gm@layoutwidth=\dimen169
+\Gm@layoutheight=\dimen170
+\Gm@layouthoffset=\dimen171
+\Gm@layoutvoffset=\dimen172
+\Gm@dimlist=\toks26
+) (/usr/share/texlive/texmf-dist/tex/latex/l3backend/l3backend-pdfmode.def
+File: l3backend-pdfmode.def 2020-02-03 L3 backend support: PDF mode
+\l__kernel_color_stack_int=\count272
+\l__pdf_internal_box=\box54
+) (/home/adityaya/iitb/SC651/Assignment1/report/report.aux)
+\openout1 = `report.aux'.
+
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 44.
+LaTeX Font Info:    ... okay on input line 44.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 44.
+LaTeX Font Info:    ... okay on input line 44.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 44.
+LaTeX Font Info:    ... okay on input line 44.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 44.
+LaTeX Font Info:    ... okay on input line 44.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 44.
+LaTeX Font Info:    ... okay on input line 44.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 44.
+LaTeX Font Info:    ... okay on input line 44.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 44.
+LaTeX Font Info:    ... okay on input line 44.
+ (/usr/share/texlive/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
+[Loading MPS to PDF converter (version 2006.09.02).]
+\scratchcounter=\count273
+\scratchdimen=\dimen173
+\scratchbox=\box55
+\nofMPsegments=\count274
+\nofMParguments=\count275
+\everyMPshowfont=\toks27
+\MPscratchCnt=\count276
+\MPscratchDim=\dimen174
+\MPnumerator=\count277
+\makeMPintoPDFobject=\count278
+\everyMPtoPDFconversion=\toks28
+) (/usr/share/texlive/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-base.sty
+Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
+Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 485.
+ (/usr/share/texlive/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg
+File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Live
+))
+Package caption Info: Begin \AtBeginDocument code.
+Package caption Info: float package is loaded.
+Package caption Info: listings package is loaded.
+Package caption Info: End \AtBeginDocument code.
+\c@lstlisting=\count279
+
+*geometry* driver: auto-detecting
+*geometry* detected driver: pdftex
+*geometry* verbose mode - [ preamble ] result:
+* driver: pdftex
+* paper: <default>
+* layout: <same size as paper>
+* layoutoffset:(h,v)=(0.0pt,0.0pt)
+* modes: 
+* h-part:(L,W,R)=(57.81621pt, 498.66258pt, 57.81621pt)
+* v-part:(T,H,B)=(50.58878pt, 686.565pt, 57.81621pt)
+* \paperwidth=614.295pt
+* \paperheight=794.96999pt
+* \textwidth=498.66258pt
+* \textheight=686.565pt
+* \oddsidemargin=-14.45378pt
+* \evensidemargin=-14.45378pt
+* \topmargin=-58.68121pt
+* \headheight=12.0pt
+* \headsep=25.0pt
+* \topskip=11.0pt
+* \footskip=30.0pt
+* \marginparwidth=59.0pt
+* \marginparsep=10.0pt
+* \columnsep=10.0pt
+* \skip\footins=10.0pt plus 4.0pt minus 2.0pt
+* \hoffset=0.0pt
+* \voffset=0.0pt
+* \mag=1000
+* \@twocolumnfalse
+* \@twosidefalse
+* \@mparswitchfalse
+* \@reversemarginfalse
+* (1in=72.27pt=25.4mm, 1cm=28.453pt)
+
+LaTeX Font Info:    Trying to load font information for U+msa on input line 45.
+(/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsa.fd
+File: umsa.fd 2013/01/14 v3.01 AMS symbols A
+)
+LaTeX Font Info:    Trying to load font information for U+msb on input line 45.
+ (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsb.fd
+File: umsb.fd 2013/01/14 v3.01 AMS symbols B
+)
+<../sm1.png, id=1, 718.3638pt x 502.9992pt>
+File: ../sm1.png Graphic file (type png)
+<use ../sm1.png>
+Package pdftex.def Info: ../sm1.png  used on input line 75.
+(pdftex.def)             Requested size: 244.3474pt x 171.08653pt.
+<../sm2.png, id=3, 718.3638pt x 502.9992pt>
+File: ../sm2.png Graphic file (type png)
+<use ../sm2.png>
+Package pdftex.def Info: ../sm2.png  used on input line 79.
+(pdftex.def)             Requested size: 244.3474pt x 171.08653pt.
+<../sm3.png, id=4, 726.3135pt x 502.9992pt>
+File: ../sm3.png Graphic file (type png)
+<use ../sm3.png>
+Package pdftex.def Info: ../sm3.png  used on input line 88.
+(pdftex.def)             Requested size: 244.3474pt x 169.22148pt.
+<../sm4.png, id=5, 732.0951pt x 502.9992pt>
+File: ../sm4.png Graphic file (type png)
+<use ../sm4.png>
+Package pdftex.def Info: ../sm4.png  used on input line 92.
+(pdftex.def)             Requested size: 244.3474pt x 167.886pt.
+ [1
+
+{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map} <../sm1.png> <../sm2.png>]
+<../sm5.png, id=17, 732.0951pt x 502.9992pt>
+File: ../sm5.png Graphic file (type png)
+<use ../sm5.png>
+Package pdftex.def Info: ../sm5.png  used on input line 101.
+(pdftex.def)             Requested size: 244.3474pt x 167.886pt.
+<../sm6.png, id=18, 737.8767pt x 502.9992pt>
+File: ../sm6.png Graphic file (type png)
+<use ../sm6.png>
+Package pdftex.def Info: ../sm6.png  used on input line 105.
+(pdftex.def)             Requested size: 244.3474pt x 166.56587pt.
+<../sm7.png, id=19, 737.8767pt x 502.9992pt>
+File: ../sm7.png Graphic file (type png)
+<use ../sm7.png>
+Package pdftex.def Info: ../sm7.png  used on input line 114.
+(pdftex.def)             Requested size: 244.3474pt x 166.56587pt.
+<../sm8.png, id=20, 743.6583pt x 502.9992pt>
+File: ../sm8.png Graphic file (type png)
+<use ../sm8.png>
+Package pdftex.def Info: ../sm8.png  used on input line 118.
+(pdftex.def)             Requested size: 244.3474pt x 165.26878pt.
+ [2 <../sm3.png> <../sm4.png> <../sm5.png> <../sm6.png> <../sm7.png> <../sm8.png>]
+<../sm9.png, id=30, 718.3638pt x 502.9992pt>
+File: ../sm9.png Graphic file (type png)
+<use ../sm9.png>
+Package pdftex.def Info: ../sm9.png  used on input line 152.
+(pdftex.def)             Requested size: 244.3474pt x 171.08653pt.
+<../sm10.png, id=31, 726.3135pt x 502.9992pt>
+File: ../sm10.png Graphic file (type png)
+<use ../sm10.png>
+Package pdftex.def Info: ../sm10.png  used on input line 156.
+(pdftex.def)             Requested size: 244.3474pt x 169.22148pt.
+<../sm12.png, id=32, 724.1454pt x 502.9992pt>
+File: ../sm12.png Graphic file (type png)
+<use ../sm12.png>
+Package pdftex.def Info: ../sm12.png  used on input line 165.
+(pdftex.def)             Requested size: 244.3474pt x 169.72037pt.
+<../sm14.png, id=33, 724.1454pt x 502.9992pt>
+File: ../sm14.png Graphic file (type png)
+<use ../sm14.png>
+Package pdftex.def Info: ../sm14.png  used on input line 169.
+(pdftex.def)             Requested size: 244.3474pt x 169.72037pt.
+<../sm13.png, id=34, 732.0951pt x 502.9992pt>
+File: ../sm13.png Graphic file (type png)
+<use ../sm13.png>
+Package pdftex.def Info: ../sm13.png  used on input line 178.
+(pdftex.def)             Requested size: 244.3474pt x 167.886pt.
+<../sm15.png, id=35, 743.6583pt x 502.9992pt>
+File: ../sm15.png Graphic file (type png)
+<use ../sm15.png>
+Package pdftex.def Info: ../sm15.png  used on input line 182.
+(pdftex.def)             Requested size: 244.3474pt x 165.26878pt.
+ [3 <../sm9.png> <../sm10.png> <../sm12.png> <../sm14.png>]
+<../sm16.png, id=43, 729.2043pt x 502.9992pt>
+File: ../sm16.png Graphic file (type png)
+<use ../sm16.png>
+Package pdftex.def Info: ../sm16.png  used on input line 191.
+(pdftex.def)             Requested size: 244.3474pt x 168.54607pt.
+<../sm17.png, id=44, 737.8767pt x 502.9992pt>
+File: ../sm17.png Graphic file (type png)
+<use ../sm17.png>
+Package pdftex.def Info: ../sm17.png  used on input line 195.
+(pdftex.def)             Requested size: 244.3474pt x 166.56587pt.
+<../vp1.png, id=45, 726.3135pt x 502.9992pt>
+File: ../vp1.png Graphic file (type png)
+<use ../vp1.png>
+Package pdftex.def Info: ../vp1.png  used on input line 205.
+(pdftex.def)             Requested size: 244.3474pt x 169.22148pt.
+<../vp2.png, id=46, 726.3135pt x 502.9992pt>
+File: ../vp2.png Graphic file (type png)
+<use ../vp2.png>
+Package pdftex.def Info: ../vp2.png  used on input line 209.
+(pdftex.def)             Requested size: 244.3474pt x 169.22148pt.
+<../vp3.png, id=47, 726.3135pt x 502.9992pt>
+File: ../vp3.png Graphic file (type png)
+<use ../vp3.png>
+Package pdftex.def Info: ../vp3.png  used on input line 216.
+(pdftex.def)             Requested size: 498.66258pt x 345.35059pt.
+ [4 <../sm13.png> <../sm15.png> <../sm16.png> <../sm17.png>]
+<../vp4.png, id=55, 726.3135pt x 502.9992pt>
+File: ../vp4.png Graphic file (type png)
+<use ../vp4.png>
+Package pdftex.def Info: ../vp4.png  used on input line 222.
+(pdftex.def)             Requested size: 498.66258pt x 345.35059pt.
+ [5 <../vp1.png> <../vp2.png> <../vp3.png>]
+<../vp6.png, id=62, 726.3135pt x 502.9992pt>
+File: ../vp6.png Graphic file (type png)
+<use ../vp6.png>
+Package pdftex.def Info: ../vp6.png  used on input line 229.
+(pdftex.def)             Requested size: 244.3474pt x 169.22148pt.
+<../vp7.png, id=63, 726.3135pt x 502.9992pt>
+File: ../vp7.png Graphic file (type png)
+<use ../vp7.png>
+Package pdftex.def Info: ../vp7.png  used on input line 233.
+(pdftex.def)             Requested size: 244.3474pt x 169.22148pt.
+ [6 <../vp4.png> <../vp6.png> <../vp7.png>]
+<../kfnormal.png, id=70, 888.921pt x 505.1673pt>
+File: ../kfnormal.png Graphic file (type png)
+<use ../kfnormal.png>
+Package pdftex.def Info: ../kfnormal.png  used on input line 261.
+(pdftex.def)             Requested size: 498.66258pt x 283.38509pt.
+<../kfmodeluncer1.png, id=71, 888.921pt x 505.1673pt>
+File: ../kfmodeluncer1.png Graphic file (type png)
+<use ../kfmodeluncer1.png>
+Package pdftex.def Info: ../kfmodeluncer1.png  used on input line 283.
+(pdftex.def)             Requested size: 244.3474pt x 138.85591pt.
+<../kfmodeluncer2.png, id=72, 883.1394pt x 505.1673pt>
+File: ../kfmodeluncer2.png Graphic file (type png)
+<use ../kfmodeluncer2.png>
+Package pdftex.def Info: ../kfmodeluncer2.png  used on input line 286.
+(pdftex.def)             Requested size: 244.3474pt x 139.76549pt.
+ [7 <../kfnormal.png>]
+<../kfcov1.png, id=83, 888.921pt x 505.1673pt>
+File: ../kfcov1.png Graphic file (type png)
+<use ../kfcov1.png>
+Package pdftex.def Info: ../kfcov1.png  used on input line 294.
+(pdftex.def)             Requested size: 244.3474pt x 138.85591pt.
+<../kfcov2.png, id=84, 888.921pt x 505.1673pt>
+File: ../kfcov2.png Graphic file (type png)
+<use ../kfcov2.png>
+Package pdftex.def Info: ../kfcov2.png  used on input line 298.
+(pdftex.def)             Requested size: 244.3474pt x 138.85591pt.
+<../kfcov3.png, id=85, 888.921pt x 505.1673pt>
+File: ../kfcov3.png Graphic file (type png)
+<use ../kfcov3.png>
+Package pdftex.def Info: ../kfcov3.png  used on input line 308.
+(pdftex.def)             Requested size: 244.3474pt x 138.85591pt.
+<../kfcov4.png, id=86, 888.921pt x 505.1673pt>
+File: ../kfcov4.png Graphic file (type png)
+<use ../kfcov4.png>
+Package pdftex.def Info: ../kfcov4.png  used on input line 312.
+(pdftex.def)             Requested size: 244.3474pt x 138.85591pt.
+ [8 <../kfmodeluncer1.png> <../kfmodeluncer2.png> <../kfcov1.png> <../kfcov2.png> <../kfcov3.png> <../kfcov4.png>]
+<../kfinituncer1.png, id=96, 893.9799pt x 505.1673pt>
+File: ../kfinituncer1.png Graphic file (type png)
+<use ../kfinituncer1.png>
+Package pdftex.def Info: ../kfinituncer1.png  used on input line 324.
+(pdftex.def)             Requested size: 244.3474pt x 138.06967pt.
+<../kfinituncer2.png, id=97, 888.921pt x 505.1673pt>
+File: ../kfinituncer2.png Graphic file (type png)
+<use ../kfinituncer2.png>
+Package pdftex.def Info: ../kfinituncer2.png  used on input line 328.
+(pdftex.def)             Requested size: 244.3474pt x 138.85591pt.
+ [9 <../kfinituncer1.png> <../kfinituncer2.png>] (/home/adityaya/iitb/SC651/Assignment1/report/report.aux) ) 
+Here is how much of TeX's memory you used:
+ 6458 strings out of 481239
+ 92734 string characters out of 5920378
+ 338784 words of memory out of 5000000
+ 21638 multiletter control sequences out of 15000+600000
+ 542677 words of font info for 64 fonts, out of 8000000 for 9000
+ 1141 hyphenation exceptions out of 8191
+ 48i,9n,46p,323b,503s stack positions out of 5000i,500n,10000p,200000b,80000s
+</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/symbols/msam10.pfb>
+Output written on /home/adityaya/iitb/SC651/Assignment1/report/report.pdf (9 pages, 5380967 bytes).
+PDF statistics:
+ 137 PDF objects out of 1000 (max. 8388607)
+ 53 compressed objects within 1 object stream
+ 0 named destinations out of 1000 (max. 500000)
+ 156 words of extra memory for PDF output out of 10000 (max. 10000000)
+

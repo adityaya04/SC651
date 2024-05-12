@@ -1,0 +1,548 @@
+\documentclass[12pt]{article}
+%
+\usepackage[left=1.3in, top = 1.3in, bottom = 1.3in, right  = 1.3in]{geometry}
+\usepackage{afterpage}
+\usepackage{amsmath}
+\usepackage[hidelinks]{hyperref}
+\usepackage{tabularx}
+\usepackage{cite}
+\usepackage{float}
+\usepackage{algorithmic}
+\usepackage{graphicx}
+\usepackage{subcaption}
+\usepackage{amssymb}
+\def\mathbi#1{\textbf{\em #1}}
+\def\omani#1{\breve{#1}}
+\def\vecAdthat{\overline{\operatorname{Ad}}_{\hat{{T}}}\left(\tilde{b}_{U}-W_{U}\right)}
+\def\cross#1{\begin{bmatrix} #1 \end{bmatrix}_\times}
+\title{  \vspace{-0.5cm}
+    SC651 : Paper Review \vspace{0cm} \\
+ \textbf{Nonlinear Filter for Simultaneous Localization
+ and Mapping on a Matrix Lie Group Using
+ IMU and Feature Measurements}}
+\author{Adityaya Dhande  \hspace{1cm} 210070005 }
+\date{}
+\begin{document}
+\maketitle
+% \tableofcontents
+% \newpage
+% \begin{center}
+%     \title{\textbf{\LARGE{Abstract}}}
+% \end{center}
+% \section{SLAM}
+% \newpage
+% \begin{center}
+%     \title{\textbf{\LARGE{Introduction}}}
+% \end{center}
+% \section{Abstract}
+\noindent
+Abstract : Simultaneous Localization and Mapping (SLAM) is the problem of building a map of an unknown environment while simultaneously estimating the pose of the observing body in the map formed, with respect to some intertial frame. 
+The paper proposes a computationally efficient filter for solving the SLAM problem on the $\mathbb{SLAM}_n(3)$ group, to account for the nonlinearity of the SLAM problem. 
+The filter needs measurements of the angular and translational velocities of the observer, and the relative positions of the features in the body frame of the observer.
+Apart from these, the filter also needs measurements of some known vectors in the intertial frame, expressed in the body frame of the observer.
+The estimate of the pose and landmark positions produced by the filter converges to the true value of the pose of the observer 
+and the true locations of the stationary landmarks respectively. The convergence of the filter 
+is proved by employing Lyapunov's stability criterion. 
+
+
+
+\section{Introduction}
+The problem of ``Simultaneous Localization and Mapping'' is an estimation problem
+that involves estimating the trajectory of an observer and the map of the environment.
+There are two broad variations
+of the SLAM problem, the online SLAM problem and the full SLAM problem. In
+the online SLAM problem, the observer estimates it’s current pose and the map as it
+moves through the environment. In the full SLAM problem, the observer estimates the
+entire trajectory, not just the current pose, and the map of the environment.
+Different
+methods to solve the online SLAM problem include filter based methods like Extended
+Kalman Filter(EKF) SLAM and Particle Filter methods. For solving the full SLAM
+problem, the most common methods are graph-based methods like Pose Graph Optimization(PGO) and Bundle Adjustment.
+
+In most applications, only the current pose of the observer and the map of the environment are required, and the online SLAM problem is relevant in such cases.
+Before this paper Extended Kalman Filters, nonlinear attitude filters on $\mathbb{SO}_3$,
+ pose filters on $\mathbb{SE}_3$ were used for just estimating the orientation or pose of the observer. 
+Few filters existed for solving the SLAM problem on the $\mathbb{SLAM}_n(3)$ group.
+The main challenges in SLAM arise because (i) Both the map and the pose of the observer have to 
+be estimated (ii) Pose dynamics of a rigid body in 3D space are highly nonlinear. 
+The $\mathbb{SLAM}_n(3)$ group elements are capable of representing both, the features in 
+the map and the pose of the observer in $\mathbb{SE}_3$.
+
+This paper proposes a filter for solving the online SLAM problem on the $\mathbb{SLAM}_n(3)$ group, which is a Lie group. The filter does not use 
+any linearization approximations and uses the $\mathbb{SLAM}_n(3)$ group to intrinsically account for the nonlinearity of the SLAM problem.
+ The filter proposed in this paper is computationally cheap and also tackles 
+ biases in the measurements of the angular and translational velocities of the observer.
+There are two algorithms presented in the paper, the first algorithm does not use the measurements of the known vectors in the intertial frame, and the second algorithm uses these measurements.
+% \newpage
+\section{Theoretical contributions of the paper}
+% The paper aims to solve the problem of Simultaneous Localization and Mapping (SLAM), which is the problem of building a map of an unknown environment while simultaneously estimating the pose of 
+% the robot (or agent observing the environment) in the map formed, with respect to some intertial frame. 
+\subsection{Mathematical preliminaries and notation}
+\begin{enumerate} % Ad vector operator, RM_I norm
+    \setlength\itemsep{-4pt}
+    \item $\omani{x} := [x^T \hspace{2mm} 0]^T$ and $\bar{x} := [x^T \hspace{2mm} 1]^T$. \\ Similarly $\omani{\mathcal{M}} := \{\omani x : x \in \mathbb{R}^3\}$ and 
+     $\bar{\mathcal{M}} := \{\bar x : x \in \mathbb{R}^3\}$
+    \item tr$(X)$ denotes the trace of a matrix $X \in \mathbb{R}^{n \times n}$.
+    \item skew$(X) = (X - X^T)/2$ where $X \in \mathbb{R}^{n \times n}$  
+    \item For $x = [x_1 \hspace{2mm} x_2 \hspace{2mm} x_3]^T \in  \mathbb{R}^3$, 
+    \[ \cross{x} := \begin{bmatrix}
+        0 & -x_3 & x_2 \\
+        x_3 & 0 & -x_1 \\
+        -x_2 & x_1 & 0
+    \end{bmatrix}\] 
+    The vex$(.)$ operator is defined as the inverse of the $\cross{.}$ operator, so that vex$(\cross{x}) = x$.
+    \item For $U = [\Omega^T \hspace{2mm} V^T] \in \mathbb{R}^6$, such that $\Omega, V \in \mathbb{R}^3$,$[U]_\wedge$ is defined as,
+    \begin{equation}
+        [U]_\wedge = \begin{bmatrix}
+            \cross{\Omega} & V \\
+            \underbar{0}_3^T & 0
+        \end{bmatrix} \in \mathfrak{se}(3), \text{ the Lie Algebra of } \mathbb{SE}(3)
+    \end{equation}
+    \item For $R \in \mathbb{SO}_3$, a measure of the ``distance'' of $R$ from $I_3$ is given by, \\$\|R\|_I = \frac{1}{4} \text{tr}(I_3 - R) \in [0,1]$.
+    \item The adjoint map, $\text{Ad}_T ([U]_\wedge)$ for any $T \in SE(3)$ and $U \in \mathbb{R}^6$ is defined as: Ad$_T : \mathbb{SE}_3 \times \mathfrak{se}_3 \rightarrow \mathfrak{se}_3$  is such that $\text{Ad}_T([U]_\wedge) = T[U]_\wedge T^{-1} \in \mathfrak{se}(3)  $.
+    An augmented adjoint map can also be defined as $\overline{\text{Ad}}_T : \mathbb{SE}_3 \rightarrow \mathbb{R}^{6 \times 6}$,
+    such that \[\overline{\text{Ad}}_T = \begin{bmatrix}
+        R & 0_{3 \times 3} \\ \cross{P}R & R
+    \end{bmatrix} \text{ for } T = (R, P) \] 
+    It follows that, $\text{Ad}_T ([U]_\wedge) = [\overline{\text{Ad}}_T U ]_\wedge$
+    \item Some mathematical identities used in the paper are,
+    \begin{equation}
+        \cross{Ry} = R \cross{u} R^T \text{ for any } y \in \mathbb{R}^ { and } R \in \mathbb{SO}_3
+    \end{equation}
+    \begin{equation}
+        \cross{y\times x} = xy^T - yx^T \text{ for } x, y \in \mathbb{R}^3
+    \end{equation}
+    \begin{equation*}
+        \text{tr}(M\cross{y}) = \text{tr}(\text{skew}(M) \cross{y})
+    \end{equation*}
+    \begin{equation}
+        = -2 \text{vex}(\text{skew}(M))^T y \text{ for } M \in \mathbb{R}^{3 \times 3} \text{ and } y \in \mathbb{R}^3
+    \end{equation}
+\end{enumerate}
+\subsection{Problem formulation}
+In this paper the map is considered to consist of a set of landmarks, whose positions in the intertial frame $\{\mathcal{I}\}$, $p_i$ have to be estimated.
+The pose of the robot $\in \mathbb{SE}(3)$, consists of orientation and translation components. 
+The orientation component is represented by a rotation matrix $R \in \mathbb{SO}(3)$, and the translation component is represented by a vector $P \in \mathbb{R}^3$.  
+The rotation matrix is expressed in the body frame $\{\mathcal{B}\}$, and the translation vector is expressed in the intertial frame $\{\mathcal{I}\}$.
+
+Let $X = (T, \bar{p}) \in \mathbb{SLAM}_n(3) $ represent the true pose of the robot, and the features (landmarks) $\bar{p} = \{\bar{p_1}, \bar{p_2}, \ldots, \bar{p_n}\}$ in the map.
+Let $\mathcal{Y} = ([U]_\wedge, \omani{v}) \in \mathfrak{slam_n} (3) $ represent
+the true group velocities and we assume that their measurements are readily available. 
+$\omani{v} = [\omani{v_1}, \omani{v_2}, \dots ,\omani{v_n}] \in \breve{\mathcal{M}}^n$. 
+The evolution of the system follows,
+\begin{equation}\label{eq:slam_dynamics}
+    \dot{T} = T [U]_\wedge
+\end{equation}
+\begin{equation}
+    \dot{p_i} = R v_i, \quad \forall  i \in \{1, 2, \ldots, n\}
+\end{equation}
+The orientation and translation parts of $T$ can be split as,
+\begin{equation}
+    \dot{R} = R [\Omega]_\times, \quad \dot{P} = RV
+\end{equation}
+$U = [\Omega^T, V^T] \in \mathbb{R}^6 $ is the true angular and translational velocities
+of the robot expressed in the body frame $\{\mathcal{B}\}$. $v_i$ is the true velocity of the $i^{th}$ feature in the body frame $\{\mathcal{B}\}$.
+$T \text{ and } p_i$ are unknown, however we have measurements of $U$ as, 
+\begin{equation}
+    \begin{cases}
+        \begin{array}{rcl}
+            \Omega_m = \Omega + b_{\Omega} + n_{\Omega} \in \mathbb{R}^3 \\
+            V_m = V + b_V + n_V \in \mathbb{R}^3
+        \end{array}\
+    \end{cases}
+\end{equation}
+It is assumed that $n_{\Omega} = 0$ and $n_V = 0$ . Also, it is assumed that the 
+environment is static, and the features are stationary, so $\omani{v_i} = 0 \quad \forall i$. 
+We also have measurements of the features in the body frame $\{\mathcal{B}\}$, as,
+\begin{equation}
+    y_i = R^T(p_i - P) \in \mathbb{R}^3
+\end{equation}
+
+Apart from the measurements of $U$ and the features, we also have the measurements, $a_j$ in the body 
+frame $\{\mathcal{B}\}$, of some known vectors $r_j$ in the intertial frame $\{\mathcal{I}\}$. These are used 
+in the second algorithm proposed in the paper.
+\begin{equation}
+    a_j = R^T r_j
+\end{equation}
+After normalizing the vectors $a_j$ and $r_j$, we have,
+\begin{equation}
+    % \begin{cases}
+        \mathbf{V}_j^r = \frac{r_j}{\| r_j\|} \quad \text{and} \quad \mathbf{V}_j^a = \frac{a_j}{\| a_j\|}
+    % \end{cases}
+\end{equation}
+Let the estimate of the pose and features be $\hat{X} = (\hat{T}, \bar{\hat{p}}) \in \mathbb{SLAM}_n(3)$.
+The error in the estimate of the pose is defined as 
+\begin{equation}
+    \tilde T = \hat{T} T^{-1} = 
+    \begin{bmatrix}
+        \hat R & \hat P \\
+        \underbar{0}_3^T & 1
+    \end{bmatrix}
+    \begin{bmatrix}
+        R^T & -R^T P \\
+        \underbar{0}_3^T & 1
+    \end{bmatrix}
+    =
+    \begin{bmatrix}
+        \tilde R & \tilde P \\
+        \underbar{0}_3^T & 1
+    \end{bmatrix},
+     \text{ where }
+     \hat{T} =
+        \begin{bmatrix}
+            \hat R & \hat P \\
+            \underbar{0}_3^T & 1
+        \end{bmatrix}
+\end{equation}
+From the above definition, we have $\tilde R = \hat R R^T$ and $\tilde P = \hat P - \tilde R P$.
+We want to drive $\tilde{T}$ to the identity matrix $I_4$ which will cause $\tilde{R} \rightarrow I_3$ and $\tilde{P}\rightarrow \underbar{0}_3$.
+We define the error between $\hat p_i$ and $p_i$ as 
+\begin{equation} \label{eq:error}
+    \omani e_i = \bar{\hat{p_i}} - \tilde{T}\bar p_i \in \omani{\mathcal{M}}
+\end{equation}
+\begin{equation}
+    \omani{e_i} = \begin{bmatrix}
+        \hat p_i \\ 1
+    \end{bmatrix} - 
+    \begin{bmatrix}
+        \hat R & \hat P \\
+        \underbar{0}_3^T & 1
+    \end{bmatrix}
+    \begin{bmatrix}
+        R^T(p_i - P) \\ 1
+    \end{bmatrix} = 
+    \begin{bmatrix}
+        \tilde p_i - \tilde{P} \\ 0
+    \end{bmatrix} 
+\end{equation}
+where $\tilde{p_i} = \hat p_i - \tilde{R}p_i$ and $\tilde{P} = \hat P - \tilde{R}P$.
+We also estimate the unknown bias terms $b_{\Omega}$ and $b_V$ as $\hat b_{\Omega}$ and $\hat b_V$ respectively, with $\hat b_U = [\hat b_\Omega^T , \hat b_V^T]$. We 
+additionally define the error between $b_U$ and $\hat b_U$ as 
+\begin{equation}
+    \begin{cases}
+        \tilde b_{\Omega} = \hat b_{\Omega} - b_{\Omega} \\
+        \tilde b_V = \hat b_V - b_V
+    \end{cases}
+\end{equation}
+
+\subsubsection{First algorithm (without measurements of $r_j$)}
+The filter proposed in the paper is as follows, 
+\begin{equation} \label{eq:filter1}
+    \dot {\hat T} = \hat T [U_m - \hat b_U -W_U]_\wedge 
+\end{equation}
+\begin{equation}
+    W_U = - \sum_{i=1}^{n} k_w \overline{\text{Ad}}_{\hat T ^{-1}} 
+    \begin{bmatrix}
+        \begin{bmatrix}
+            \hat Ry_i + \hat P
+        \end{bmatrix}_\times \\
+        I_3
+    \end{bmatrix}
+    e_i
+\end{equation}
+\begin{equation}
+    \dot {\hat{b}}_U = - \sum_{i=1}^{n} \frac{\Gamma}{\alpha_i} \overline{\text{Ad}}_{\hat T} 
+    \begin{bmatrix}
+        \begin{bmatrix}
+            \hat Ry_i + \hat P
+        \end{bmatrix}_\times \\
+        I_3
+    \end{bmatrix}
+    e_i
+\end{equation}
+\begin{equation} \label{eq:filter1end}
+    \dot{\hat p} = -k_1 e_i \quad \forall i \in \{1, 2, \ldots, n\}
+\end{equation}
+
+$W_U = [W_{\Omega}^T, V_{\Omega}^T]$ is a correction factor, analogous to the innovation term in the Kalman Filter. 
+It is assumed that the total number of feature measurements $y_i$ is greater than 
+or equal to 3. The paper shows that with the filter (\ref{eq:filter1})-(\ref{eq:filter1end}), with $k_w$, $\Gamma$, $\alpha_i$ and $k_1$ taken 
+to be positive constants, causes each $e_i \rightarrow \underbar{0}_3$ asymptotically. 
+It is also shown that $\tilde T$ remains bounded and $\tilde{R} \rightarrow R_c \in \mathbb{SO}_3$, 
+$\tilde{P} \rightarrow P_c \in \mathbb{R}^3$ as $t \rightarrow \infty$, where 
+$R_c$ and $P_c$ are constants. The proof in the paper uses Lyapunov's stability criterion.
+% There are some gaps in the proof presented and I worked out the proof to fill in the same.
+% The following is the complete version of the proof that I worked out from the paper :
+
+\textit{Proof :} 
+\begin{equation} \label{eq:UfromUm}
+    U_m = U + b_U \text{ and } \tilde{b}_U = b_U - \hat b_U \implies U_m - \hat b_U = U + \tilde{b}_U
+\end{equation}
+\begin{equation} \label{eq:Tinvdot}
+    TT^{-1} = I \implies \dot T T^{-1} + T \dot T^{-1} = 0 \implies \dot T^{-1} = -T^{-1} \dot T T^{-1}
+\end{equation}
+\begin{equation}
+    \dot {\tilde{T}} = \dot{\hat T}T^{-1} + \hat T \dot{T}^{-1}   \\
+\end{equation}
+\begin{eqnarray}
+    \dot {\tilde{T}} = \hat{T} [U_m - \hat b_U -W_U]_\wedge T^{-1} - \hat T [U]_\wedge T^{-1} \text{ using } (\ref{eq:slam_dynamics}) \text{ and } (\ref{eq:Tinvdot}) \nonumber \\
+    = \hat{T} [U + \tilde b_U -W_U]_\wedge T^{-1} - \hat T [U]_\wedge T^{-1} =  \hat T [\tilde b_U - W_U]_\wedge \hat T^{-1}\tilde T\text{ using } (\ref{eq:UfromUm})
+\end{eqnarray}
+
+\begin{equation*}
+    \implies \dot{\tilde T} = \text{Ad}_{\hat T}([\tilde b_U -W_U]_\wedge )\tilde T
+\end{equation*}
+\begin{equation*}
+    % \begin{aligned}
+    \operatorname{Ad}_{\hat{{T}}}\left(\left[\tilde{b}_{U}-W_{U}\right]_{\wedge}\right)  =\left[\overline{\operatorname{Ad}}_{\hat{{T}}}\left(\tilde{b}_{U}-W_{U}\right)\right]_{\wedge} 
+     =\left[\left[\begin{array}{cc}
+    \hat{R} & 0_{3 \times 3} \\
+    \begin{bmatrix}\hat{P}\end{bmatrix}_{\times} \hat{R} & \hat{R}
+    \end{array}\right]\left[\begin{array}{c}
+    \tilde{b}_{\Omega}-W_{\Omega} \\
+    \tilde{b}_{V}-W_{V}
+    \end{array}\right]\right]_{\wedge}
+    % \end{aligned}   
+\end{equation*}
+
+Differentiating $(\ref{eq:error})$, we get 
+\begin{equation}
+    \omani {\dot e}_i = \omani {\dot{\hat{p}}}_i - \text{Ad}_{\hat T}([\tilde b_U -W_U]_\wedge )\tilde T \bar p_i \text{ as } \dot p_i = \underbar{0}_3
+\end{equation}
+\begin{equation}
+    \text{Ad}_{\hat T}([\tilde b_U -W_U]_\wedge )\tilde T \bar p_i  = 
+    \begin{bmatrix}
+        -\begin{bmatrix}
+            \hat R y_i + \hat P
+        \end{bmatrix}_\times & I_3 \\
+        \underbar{0}_3 & \underbar{0}_3
+    \end{bmatrix}
+    \vecAdthat
+\end{equation}
+\begin{equation}
+    \implies \dot e_i = \dot p_i - \begin{bmatrix}
+        \cross{\hat Ry_i + \hat {P}} & I_3
+    \end{bmatrix}\vecAdthat
+\end{equation} 
+Let us define a Lyapunov function $\mathcal{L}$ as, 
+\begin{equation}
+    \mathcal{L} = \sum_{i=1}^{n} \frac{1}{2 \alpha_i} e_i^Te_i + \frac{1}{2}\tilde{b}_U^T \Gamma^{-1}\tilde{b}_U
+\end{equation}
+
+$\tilde b_U = b_U - \hat b_U \implies \dot{\tilde{b}}_U = -\dot{\hat b}_U$. Differentiating $\mathcal{L}$ with respect to time,
+\begin{equation}
+    \dot{\mathcal{L}} = \sum_{i=1}^{n} \{  \frac{1}{\alpha_i} e_i^T \dot e_i - \tilde{b}_U^T \Gamma^{-1}\dot{\hat{b}}_U \} 
+\end{equation}
+After substituting for $\dot{\hat b}_U$ and $\dot e_i$, most of the terms get cancelled, leaving us with,
+\begin{equation}
+    \dot{\mathcal{L}} = -\sum_{i=1}^{n} \{\frac{k_1}{\alpha_i} \|e_i \|^2 + k_w \|\frac{e_i}{\alpha_i} \|^2 \} -k_w \| \sum_{i=1}^{n} \cross{\hat R y_i + \hat P} \frac{e_i}{\alpha_i} \|^2
+\end{equation}
+which is negative definite and is equal to 0 when $e_i = \underbar{0}_3$.
+
+The drawback of this filter is that it does not guarantee $\tilde{R} \rightarrow I_3$, which is 
+what we need. The second algorithm proposed in the paper, aims to solve this problem.
+
+
+\subsubsection{Second algorithm (with measurements of $r_j$)}
+This filter uses the measurements of $r_j$ in the body frame $\{\mathcal{B}\}$. 
+A matrix $M$ is formed using $r_j$ as, 
+\begin{equation}
+    M = M^T = \sum_{j=1}^{n_R} s_j \mathbf{V}_j^r(\mathbf{V}_j^r)^T
+\end{equation}
+$s_j \geq 0$ represents the confidence level of the measurement of $r_j$. Without loss 
+of generality, we can take $\sum_{j=1}^{n_R}s_j = 3$, which means tr$(M) = 3$
+ It is assumed that the total number of non-collinear measurements of $r_j$ is greater than or equal to 2,
+and rank$(M) = 3$.
+We state a result which provies a bound that will be used in the proof of the guarantees of the filter.
+Define the matrix $\mathbf{M} = \text{tr}(M)I_3 - M$ and let  \underbar{$\lambda $}$(\mathbf{M})$ denote 
+the minimum eigenvalue of $\mathbf{M}$. Then for $\tilde R \in \mathbb{SO}_3$,
+\begin{equation} \label{eq:bound}
+    \| \tilde RM \|_I \leq \frac{2}{ \underline{\lambda}(\mathbf{M})} \frac{\|\text{vex}(\text{skew}(\tilde RM)) \|^2}{1 + \text{tr}(\tilde RMM^{-1})}
+\end{equation}  
+We also define 
+\begin{equation}
+    \hat {\mathbf{V}}_j^a = \hat R ^T {\mathbf{V}}_j^r
+\end{equation}
+The filter equations are as follows,
+\begin{equation} \label{eq:filter2}
+    \dot {\hat T} = \hat T [U_m - \hat b_U -W_U]_\wedge
+\end{equation}
+\begin{equation}
+    \tau_R =  \underline{\lambda}(\mathbf{M}) \times (1 + \text{tr}(\tilde RMM^{-1}))
+\end{equation}
+\begin{equation}
+    W_U = \sum_{i=1}^{n} \frac{1}{\alpha_i}
+    \begin{bmatrix}
+        \frac{k_w\alpha_i}{\tau_R} \hat R^T & 0_{3 \times 3} \\
+        0_{3 \times 3} & - k_2 \hat R^T
+    \end{bmatrix}
+    \begin{bmatrix}
+        \text{vex}(\text{skew}(\tilde{R}M)) \\
+        e_i
+    \end{bmatrix}
+\end{equation}
+\begin{equation}
+    \dot {\hat{b}}_U = \sum_{i=1}^{n} \frac{\Gamma}{\alpha_i}
+    \begin{bmatrix}
+        \frac{\alpha_i}{2} \hat R^T & -\cross{y_i} \hat R^T \\
+        0_{3 \times 3} & - \hat R^T
+    \end{bmatrix}
+    \begin{bmatrix}
+        \text{vex}(\text{skew}(\tilde{R}M)) \\
+        e_i
+    \end{bmatrix}
+\end{equation}
+\begin{equation} \label{eq:filter2end}
+    \dot{\hat p} = -k_1 e_i + \hat R \cross{y_i} \quad \forall i \in \{1, 2, \ldots, n\}
+\end{equation}
+To obtain vex$(\text{skew}(\tilde RM))$,
+\begin{equation*}
+    \cross{\hat R \sum_{j=1}^{n_R} \frac{s_j}{2} \hat {\mathbf{V}}_j^a \times {\mathbf{V}}_j^a } 
+    = \hat R \sum_{j=1}^{n_R} \frac{s_j}{2} ({\mathbf{V}}_j^a (\hat{\mathbf{V}}_j^a)^T - \hat{\mathbf{V}}_j^a ({\mathbf{V}}_j^a)^T) \hat R^T
+    = \frac{1}{2}(\hat R R^T M - M R \hat R^T)
+\end{equation*}
+\begin{equation}
+    = \text{skew}(\tilde{R}M) \implies \text{vex}(\text{skew}(\tilde RM)) = \hat R \sum_{j=1}^{n_R} \frac{s_j}{2} \hat {\mathbf{V}}_j^a \times {\mathbf{V}}_j^a 
+\end{equation}
+\begin{equation}\label{eq:lya2}
+    \mathcal{L} = \sum_{i=1}^{n} \frac{1}{2 \alpha_i} e_i^Te_i + \frac{1}{2}\tilde{b}_U^T \Gamma^{-1}\tilde{b}_U + \|\tilde{R}M \|_I
+\end{equation}
+Using the Lyapunov function (\ref{eq:lya2}), the paper shows that the filter (\ref{eq:filter2})-(\ref{eq:filter2end}) guarantees that $e_i \rightarrow \underbar{0}_3$ asymptotically, $\tilde{R} \rightarrow I_3$ and $\tilde{P} \rightarrow \underbar{0}_3$ as $t \rightarrow \infty$. 
+The derivative of $\mathcal{L}$ with respect to time is 
+\begin{equation}
+    \dot{\mathcal{L}} = -\sum_{i=1}^{n} \frac{k_1}{\alpha_i} \|e_i \|^2 
+                        - \frac{k_w}{2\tau_R} \|\text{vex}(\text{skew}(\tilde RM)) \|^2 
+                        -\sum_{i=1}^{n} k_2 \| \frac{e_i}{\alpha_i} \|^2 
+\end{equation}
+Using the bound (\ref{eq:bound}), 
+\begin{equation}
+    \dot{\mathcal{L}} \leq -\sum_{i=1}^{n} \frac{k_1}{\alpha_i} \|e_i \|^2 
+    - \frac{k_w}{4} \|\tilde R M\|_I
+    -\sum_{i=1}^{n} k_2 \| \frac{e_i}{\alpha_i} \|^2 
+\end{equation}
+
+$\dot{\mathcal{L}} = 0 \implies e_i = 0 \quad \forall i$ and $\| \tilde{R}M\|_I = 0$, which means $\tilde{R} \rightarrow I_3$ as $t \rightarrow \infty$.
+The bound (\ref{eq:bound}) however, does not work when $\text{tr}(\tilde R) = -1$, which happens only for starting conditions 
+$\tilde R (0) \in \mathcal{U} \triangleq \{ \text{diag}(1, -1, -1), \text{diag}(-1, 1, -1), \text{diag}(-1, -1, 1) \}$.
+$\mathcal{U}$ is a positively invariant and thus, for any initial condition other than $\tilde{R} \in \mathcal{U}$, 
+the filter guarantees $\tilde{R} \rightarrow I_3$ and $\tilde P \rightarrow P_c$ as $t \rightarrow \infty$.
+
+In both the filters, the terms in the derivative of the Lyapunov function get cancelled out because of the filter equations by using the mathematical identities
+from the preliminaries section. The paper also provides a version of the second 
+filter using quaternions, without any proof. 
+
+
+
+
+
+
+
+
+
+
+
+% \newpage
+\section{Some mathematical objects used}
+\subsection{An measure of difference on $\mathbb{SO}(3)$}
+\begin{equation}
+    \| R \|_I = \frac{1}{4} \text{tr} (I_3 - R)
+\end{equation}
+The above equation is a measure of difference between two rotation matrices $I$ and $R$ in $\mathbb{SO}(3)$. In general for two matrices $A$ and $B$ in $\mathbb{SO}(3)$, the measure of difference between them can be evaluated
+\begin{equation}
+    \| A^T B \|_I = \frac{1}{4} \text{tr} (I_3 - A^T B)
+\end{equation}
+ $A^TB$ is also a matrix in $\mathbb{SO}(3)$, and for all matrices in $\mathbb{SO}(3)$, the trace is of the form $1 + 2\cos(\theta)$, where $\theta$ is the angle of rotation about an axis which takes $A$ to $B$. 
+ Thus, tr($A^TB$) $\in [-1, 3]$ and $\| A^TB \|_I \in [0, 1]$.
+ 
+ The measure of difference, $\| A^TB \|_I = 0 \iff A = B$. This is because, 
+ \[\| A^TB \|_I = 0 \implies \text{tr} (I_3 - A^TB) = 0 \implies 2 - 2\cos(\theta) = 0\]
+ \[\implies \theta = 0 \implies A = B\]
+Using the Frobenius norm of the difference of the two matrices could also be a measure of 
+the difference between them, but the measure of difference defined above is more intuitive and 
+has some nice properties which are used in the paper, which exploit the special orthogonality of the matrices. 
+\subsection{Lyapunov stability criterion}
+Lyapunov's stability criterion is a powerful tool used to analyze the stability of a dynamical system. 
+Given a dynamical system $\dot{x} = f(x)$, where $x \in \mathbb{R}^n$ is the state of the system, and $f(x)$ is a smooth vector field, the equilibrium point $x = 0$ is said to be stable if all trajectories starting sufficiently close to $x = 0$ remain close to $x = 0$ for all time. The Lyapunov stability criterion provides a method for determining the stability of an equilibrium point without explicitly solving the differential equations of the system.
+
+It states that if there exists a function $V(x)$, called a Lyapunov function, which satisfies the following conditions:
+
+\begin{enumerate}
+    \setlength\itemsep{-3pt}
+    \item $V(x)$ is continuous in a region containing the equilibrium point $x = 0$.
+    \item $V(0) = 0$, and $V(x) > 0$ for all $x \neq 0$ in the region of interest.
+    \item The time derivative of $V(x)$ along the trajectories of the system satisfies $\dot{V}(x) \leq 0$ for all $x \neq 0$ in the region of interest.
+\end{enumerate}
+
+Then, the equilibrium point $x = 0$ is said to be stable. If, in addition, $\dot{V}(x) < 0$ for all $x \neq 0$ in the region of interest, then the equilibrium point $x = 0$ is said to be asymptotically stable, which means that 
+all trajectories starting sufficiently close to $x = 0$ converge to $x = 0$ as $t \rightarrow \infty$.
+
+The point $x = 0$ is said to be exponentially stable if there exist positive constants $\alpha$ and $\beta$ such that $\dot{V}(x) \leq -\alpha V(x)$ for all $x \neq 0$ in the region of interest, and $V(x) \leq \beta \| x \|^2$ for all $x$ in the region of interest.
+This criterion provides a useful method for determining the stability properties of a wide range of dynamical systems.
+
+The idea of the stability criterion can be interpreted by thinking of $V(x)$ as a measure of the energy of the system. The condition $\dot{V}(x) \leq 0$ means that the energy of the system is decreasing or constant, which implies that the system is stable. The condition $\dot{V}(x) < 0$ means that the energy of the system is strictly decreasing, which implies that the system is asymptotically stable.
+\subsection{Augmented adjoint representation}
+\[\overline{\text{Ad}}_T : \mathbb{SE}_3 \rightarrow \mathbb{R}^{6 \times 6}\]
+\[ \begin{bmatrix}
+    R & P \\
+    \underbar{0}_3^T & 1
+\end{bmatrix} \mapsto 
+\begin{bmatrix}
+    R & 0_{3 \times 3} \\ \cross{P}R & R
+\end{bmatrix}
+\] 
+This can be used in conjunction with the $\mathfrak{se}_3$ representation of a vector in $\mathbb{R}^6$ to obtain the velocity at the group element in the Lie Algebra, expressed as a vector in $\mathbb{R}^6$.
+% \newpage
+
+\section{An applied example }
+% For the sake of understanding the filter proposed in the paper, let us consider a simple example. 
+Consider a robot moving in 3D space, with sensors to measure it's translation and angular velocities 
+in its body frame $\{\mathcal{B}\}$. The robot is also equipped with sensors to measure the positions of 
+3 fixed landmarks in the environment, again in its body frame. 
+Apart from this, consider the gravity vector $g$ is known in the intertial frame 
+and also a magnetic field vector (maybe due to earth's magnetic field) $m$ is known in the intertial frame. 
+The robot also needs accelerometers and magnetometers to measure the acceleration (mostly gravity) and magnetic field in its body frame.
+In this example we take the noise levels of the accelerometer and magnetometer to be be the same (same confidence in both measurements).
+We can apply the second filter proposed in the paper in a discretized manner to estimate the pose of the robot and the landmarks.
+
+We have to first initialize the orientation and position of the robot. To initialize the 
+orientation, we can use measurements of $g$ and $m$ in the body frame, $g_b$ and $m_b$ respectively, to estimate the orientation of the robot using TRIAD or QUEST, and use 
+that as the initial estimate of the orientation. The position can be initialized to the origin of the intertial frame. We can 
+also initialize the landmarks using the initialized orientation and position of the robot, and measurements of the 
+landmarks in the body frame. If the initial estimate of the orientation, obtained using QUEST on the
+vector pairs $(g, m)$ and $(g_b, m_b)$,  is $\hat R_0$, and the feature measurements in the
+the body frame are $y^i_0$, then the initial estimate of the landmarks in the intertial frame can be set as 
+$\hat p^i_0 = \hat R_0^T y^i_0$ for $i = 1, 2, 3$.
+
+To apply the filter in small timesteps after the initialization, we need to choose 
+the gains $k_w$, $\alpha_i$, $k_1$, $k_2 \in \mathbb{R}$ and $\Gamma \in \mathbb{R}^{6 \times 6}$.  The only requirement is that the gains be positive. The value of $\alpha_i$'s can be chosen to be the same for all $i$'s under the assumption that the confidence level of the measurements of the landmarks is the same. 
+Assuming that confidence of the measured angular velocities is more than that of the measured translational velocities, we can choose $k_w > k_2$ as $k_2$ weighs the contribution of the angular velocities in the correction term. We can choose $k_1$ and $\Gamma$ to be of the same order as $k_w$ and $k_2$. 
+
+We have to normalize $g$ and $m$ (call the new vectors obtained after normalization, $v^g_I$ and $v^m_I$ respectively) and compute $M$ as defined in (30), and use it to obtain $\mathbf{M}$. We have  
+to then obtain the minimum eigenvalue of $\mathbf{M}$, $\underline{\lambda}(\mathbf{M})$ and store it.
+
+At the $k$th step of the filter, we should normalize measurements $g_b$ and $m_b$ (call the new vectors obtained after normalization $v^g_B$ and $v^m_B$ respectively). Compute $\hat R_k v^g_B \text{ and } \hat R_k v^m_B$ and call them $a^g$ and $a^m$. We then need to compute $\tau_R$ as in (34).
+We can compute $(\tilde RMM^{-1})$ which is needed in (34) as, 
+\[(\tilde RMM^{-1}) = \frac{3}{2} (a^g (v^g_I)^T + a^m (v^m_I)^T)(a^g (v^g_I)^T + a^m (v^m_I)^T)^{-1} \]
+We can then calculate $e^i_k = \hat p^i_k - \hat R_k y^i_k - \hat P_k $
+and use the $e^i_k$'s to compute the correction term $W_U$ as in (35). 
+Using the measurements of the angular and translational velocities, $U_m$, 
+we have to update the estimate of the pose as \[\hat T_{k+1} = \hat T_k \exp([U_m - \hat b_{U,k} - W_{U,k}]_\wedge \Delta t)\]
+where $\Delta t$ is the time step.
+We can then update the estimate of the biases by adding the $\Delta t \times \dot{\hat b}_U$ 
+where $\dot{\hat b}_U$ is obtained from (36) using variables from the current timestep.  
+Similarly, we can update the estimates of the landmarks taking the derivative from (37) and 
+multiplying it with $\Delta t$. 
+
+Following these steps, we can apply the filter in small timesteps to estimate the pose of the robot and the landmarks.
+
+
+% \newpage
+\section{Conclusion }
+
+The assumptions made in the paper seem quite restrictive for practical applications.
+The assumption that the noise is zero in the measurements of the angular and translational velocities of the observer (except for the biases) is quite unrealistic.
+Also the assumption that the feature measurements are available in the body frame of the observer without any noise 
+is quite demanding. It is also assumed that 
+the measurements of the known vectors in the intertial frame are available in the body frame without any noise. 
+However the filter compensates for these assumptions in its computational simplicity and the guarantees it provides.
+The simulation results in the paper show that the filter works well even with some noise added to the measurements of the velocities.
+
+The usage of the term Inertial Measurement Unit (IMU) in the paper is quite misleading. An IMU typically consists of accelerometers and gyroscopes and is used to measure linear accelerations and angular velocities.
+The filter proposed in the paper talks about IMUs as sensors used to obtain body frame 
+measurements of vectors which are known in the inertial frame. This caused some confusion 
+initially while reading the paper.
+
+The paper was indeed self-contained and the mathematical preliminaries and notation were well defined. There were 
+gaps in the mathematical steps throughout the paper, which I was able to easily fill in by working out the steps.
+
+\end{document}

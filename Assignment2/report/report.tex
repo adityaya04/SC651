@@ -1,0 +1,221 @@
+\documentclass[11pt]{article}
+\usepackage{graphicx}
+\usepackage{subcaption}
+\usepackage{tabularx}
+\usepackage{float}
+\usepackage{listings}
+\usepackage{hyperref}
+\usepackage{caption}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{listings}
+\usepackage[inline]{enumitem}
+\usepackage{xcolor}
+\usepackage[top = 0.7in,bottom = 0.8in, left = 0.8in, right = 0.8in]{geometry} 
+
+%New colors defined below
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+%Code listing style named "mystyle"
+\lstdefinestyle{mystyle}{
+  backgroundcolor=\color{backcolour},   commentstyle=\color{codegreen},
+  keywordstyle=\color{magenta},
+  numberstyle=\tiny\color{codegray},
+  stringstyle=\color{codepurple},
+  basicstyle=\ttfamily\footnotesize,
+  breakatwhitespace=false,         
+  breaklines=true,                 
+  captionpos=b,                    
+  keepspaces=true,                 
+  numbers=left,                    
+  numbersep=5pt,                  
+  showspaces=false,                
+  showstringspaces=false,
+  showtabs=false,                  
+  tabsize=2
+} 
+\lstset{style=mystyle}
+ 
+\title{\textbf{SC651 : Assignment 2}}
+\author{\textbf{Adityaya Dhande}   \hspace{8mm} \textbf{210070005}}
+\date{}
+\begin{document}
+\maketitle
+\section*{Question 1}
+I have referred to the \href{https://en.wikipedia.org/wiki/Wahba%27s_problem}{Wikipedia} page on Wahba's problem to get the implementation of the algorithm using SVD. This is the code I used to apply the algorithm,
+\begin{lstlisting}[language=python]
+B = np.zeros((3,3))
+for i in range(len(DATA)):
+    w = DATA[i][1]
+    v = DATA[i][0]
+    w = w.reshape((len(w),1))
+    v = v.reshape((len(v),1))
+    B += w @ v.T
+U, S , Vt = np.linalg.svd(B)
+M = np.diag([1, 1, np.linalg.det(U) * np.linalg.det(Vt)])
+R = (U @ M @ Vt)
+\end{lstlisting}
+Using the data given I obtained the rotation matrix to be, 
+\begin{equation*}
+    R = \begin{bmatrix}
+        0.97307269 & -0.21660168 & 0.07882421 \\ 
+        0.22659041 & 0.96160772 & -0.15481402 \\ 
+        -0.042265 & 0.16850611 & 0.98479407 \\
+    \end{bmatrix}
+\end{equation*}
+The mean squared error(between $v$ and $w$) in the original data was approximately 0.51, whereas after applying Wahba's algorithm, the mean squared error (calculated as the mean squared error between $Rv$ and $w$)
+reduced to 0.492.
+\section*{Question 2}
+\begin{equation}
+    \text{For a square matrix } A, exp(A) := \sum_{i = 0}^{\infty} \frac{A^i}{i!} 
+\end{equation}
+\subsection*{Part a}
+$$
+\hat{x} = \begin{pmatrix}
+    0 & -x_3 & x_2 \\
+    x_3 & 0 & -x_1 \\
+    -x_2 & x_1 & 0
+\end{pmatrix}
+$$
+
+Because $\hat{x}$ is $3 \times 3$ skew-symmetric matrix, $\hat{x}^3 = -(x_1^2 + x_2^2 + x_3^2) \hat{x} $. Let us define $a^2 := x_1^2 + x_2^2 + x_3^2$. This means that for 
+all positive integers $m$,
+ $$\hat{x}^{2m+1} = (-1)^m a^{2m} \hat{x} \hspace{5mm}\text{ and } \hspace{5mm}
+ \hat{x}^{2m} = (-1)^{m-1} a^{2m-2} \hat{x}^2
+ $$
+Therefore,
+\begin{equation*}
+    exp(\hat{x}) = I + \sum_{m = 0}^{\infty} \frac{\hat{x}^{2m+1}}{(2m+1)!} + \sum_{m = 1}^{\infty} \frac{\hat{x}^{2m}}{(2m)!}
+\end{equation*}
+\begin{equation*}
+    = I + \sum_{m = 0}^{\infty} \frac{(-1)^m a^{2m}}{(2m+1)!}\hat{x} + \sum_{m = 1}^{\infty} \frac{(-1)^{m-1}a^{2m-2}}{(2m)!}\hat{x}^2
+\end{equation*}
+\begin{equation*}
+    = I + \frac{1}{a}\sum_{m = 0}^{\infty} \frac{(-1)^m a^{2m+1}}{(2m+1)!}\hat{x} - \frac{1}{a^2}\sum_{m = 1}^{\infty} \frac{(-1)^{m}a^{2m}}{(2m)!}\hat{x}^2
+\end{equation*} 
+The two summations are the Taylor expansions of $sin(a)$ and $1 - cos(a)$ respectively. Thus,
+\begin{equation*}
+    exp(\hat{x}) = I + \frac{sin(a)}{a}\hat{x} + \frac{1 - cos(a)}{a^2}\hat{x}^2
+\end{equation*}
+
+\subsection*{Part b}
+$$\tilde{x} = \begin{pmatrix}
+    x_3 & x_1 - \iota x_2 \\
+    x_1 + \iota x_2 & -x_3
+\end{pmatrix}$$
+Evaluating $\tilde{x}^2$, we get 
+$\tilde{x}^2 = (x_1^2 + x_2^2 + x_3^2) I$ where $I$ is the $2 \times 2$ identity matrix. \\Let us define $a^2 := x_1^2 + x_2^2 + x_3^2$.
+
+$$\tilde{x}^{2m+1} = a^{2m} \tilde{x} \hspace{5mm}\text{ and } \hspace{5mm}
+\hat{x}^{2m} = a^{2m} I
+$$
+\begin{equation*}
+    exp(\tilde{x}) = \sum_{m = 0}^{\infty} \frac{\tilde{x}^{2m}}{(2m)!} + \sum_{m = 0}^{\infty} \frac{\tilde{x}^{2m+1}}{(2m+1)!}
+\end{equation*}
+ 
+\begin{equation*}
+    = \sum_{m = 0}^{\infty} \frac{a^{2m}}{(2m)!} I + \sum_{m = 0}^{\infty} \frac{a^{2m}}{(2m+1)!} \tilde{x}
+    = \sum_{m = 0}^{\infty} \frac{a^{2m}}{(2m)!} I + \frac{1}{a}\sum_{m = 0}^{\infty} \frac{a^{2m+1}}{(2m+1)!} \tilde{x}
+\end{equation*}
+
+\begin{equation*}
+    exp(\tilde{x}) = cosh(a) I + \frac{sinh(a)}{a} \tilde{x}
+\end{equation*}
+where $cosh(a) = \frac{e^a + e^{-a}}{2}$ and $sinh(a) = \frac{e^a - e^{-a}}{2}$
+\section*{Question 3}
+
+The elementary rotation matrices for rotations about $X, Y$ and $Z$ axes are,
+\begin{equation*}
+    R_X(\theta) = \begin{pmatrix}
+        1 & 0 & 0 \\
+        0 & cos(\theta) & -sin(\theta) \\
+        0 & sin(\theta) & cos(\theta)
+    \end{pmatrix}
+    R_Y(\theta) = \begin{pmatrix}
+        cos(\theta) & 0 & sin(\theta) \\
+        0 & 1 & 0 \\
+        -sin(\theta) & 0 & cos(\theta)
+    \end{pmatrix}
+    R_Z(\theta) = \begin{pmatrix}
+        cos(\theta) & -sin(\theta)  & 0\\
+        sin(\theta) & cos(\theta)  & 0\\
+        0 & 0 & 1
+    \end{pmatrix}
+\end{equation*}
+From now I will use $c(\theta)$ for $cos(\theta)$ and $s(\theta)$ for $sin(\theta)$
+\subsection*{XZY Euler angles}
+\begin{equation*}
+    R(\alpha, \beta, \gamma) = R_Y(\gamma) R_Z(\beta) R_X(\alpha)
+\end{equation*}
+\begin{equation*}
+    = \begin{pmatrix}
+        c(\gamma) & 0 & s(\gamma) \\
+        0 & 1 & 0 \\
+        -s(\gamma) & 0 & c(\gamma)
+    \end{pmatrix}
+    \begin{pmatrix}
+        c(\beta) & -c(\alpha)s(\beta) & s(\alpha)s(\beta) \\ 
+        s(\beta) & c(\alpha)c(\beta) & -s(\alpha)c(\beta) \\
+        0 & s(\alpha) & c(\alpha)
+    \end{pmatrix}
+\end{equation*}
+\begin{equation*}
+    =
+    \begin{pmatrix}
+        c(\beta)c(\gamma) & s(\alpha)s(\gamma) - s(\beta)c(\alpha)c(\gamma) & c(\alpha)s(\gamma) + s(\beta)c(\gamma)s(\alpha) \\
+        s(\beta) & c(\alpha)c(\beta) & -s(\alpha)c(\beta) \\
+        -s(\gamma)c(\beta) & s(\alpha)c(\gamma)+s(\beta)c(\alpha)s(\gamma) & c(\alpha)c(\gamma)-s(\beta)s(\alpha)s(\gamma)
+    \end{pmatrix}
+\end{equation*}
+\begin{equation*}
+    \text{at } \beta = \frac{\pi}{2}, \hspace{3mm} R(\alpha, \frac{\pi}{2}, \gamma) =
+    \begin{pmatrix}
+        0 & -c(\alpha+\gamma) & s(\alpha + \gamma) \\
+        1 & 0 & 0 \\
+        0 & s(\alpha + \gamma) & c(\alpha + \gamma)
+    \end{pmatrix}
+\end{equation*}
+This is a singularity as $\alpha$ and $\gamma$ are not uniquely determinable. For a rotation of $\frac{\pi}{2}$ about the middle axis, the first and last axes become parallel.
+
+\subsection*{YZY Euler angles}
+\begin{equation*}
+    R(\alpha, \beta, \gamma) = R_Y(\gamma) R_Z(\beta) R_Y(\alpha)
+\end{equation*}
+\begin{equation*}
+    = \begin{pmatrix}
+        c(\gamma) & 0 & s(\gamma) \\
+        0 & 1 & 0 \\
+        -s(\gamma) & 0 & c(\gamma)
+    \end{pmatrix}
+    \begin{pmatrix}
+        c(\alpha)c(\beta) & -s(\beta) & s(\alpha)c(\beta) \\ 
+        c(\alpha)s(\beta) & c(\beta) & s(\alpha)s(\beta) \\
+        -s(\alpha) & 0 & c(\alpha)
+    \end{pmatrix}
+\end{equation*}
+\begin{equation*}
+    =
+    \begin{pmatrix}
+        c(\beta)c(\alpha)c(\gamma) - s(\alpha)s(\gamma) & -s(\beta)c(\gamma) & c(\beta)s(\alpha)c(\gamma) + c(\alpha)s(\gamma) \\
+        c(\alpha)s(\beta) & c(\beta) & s(\alpha)s(\beta) \\
+        -s(\alpha)c(\gamma)-c(\beta)s(\gamma)c(\alpha) & s(\beta)s(\gamma) & c(\alpha)c(\gamma) - c(\beta)s(\alpha)s(\gamma)
+    \end{pmatrix}
+\end{equation*}
+\begin{equation*}
+    \text{at } \gamma = 0, \hspace{3mm} R(\alpha, 0, \gamma) =
+    \begin{pmatrix}
+        c(\alpha + \gamma) & 0 & s(\alpha + \gamma) \\
+        0 & 1 & 0 \\
+        -s(\alpha + \gamma) & 0 & c(\alpha + \gamma)
+    \end{pmatrix}
+\end{equation*}
+This is a singularity as $\alpha$ and $\gamma$ are not uniquely determinable. For a rotation of 0 radians about the middle axis, the first and last axes become parallel.
+
+Thus any euler angle representation of the form \textbf{ABC} or \textbf{ABA}, where \textbf{A},\textbf{B},\textbf{C} $\in \{\textbf{X, Y, Z}\}$ and $\textbf{A} \neq \textbf{B} \neq \textbf{C}$, will have a singularity
+when the rotation is about the middle axis by either $\frac{\pi}{2}$ radians(\textbf{ABC}) or 0 radians(\textbf{ABA}).
+
+\end{document}
+ 
